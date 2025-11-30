@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "PDFDocuments")
+@Table(name = "pdfdocument")
 public class PDFDocument {
 
     @Id

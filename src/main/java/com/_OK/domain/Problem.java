@@ -17,7 +17,7 @@ public class Problem {
     private Long problemId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pdfDocumentId")
+    @JoinColumn(name = "pdf_document_id")
     private PDFDocument pdfDocument;
 
     @Column(nullable = false, columnDefinition = "TEXT")
