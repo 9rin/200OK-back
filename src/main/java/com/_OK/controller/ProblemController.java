@@ -6,8 +6,10 @@ import com._OK.service.ProblemService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,7 +20,29 @@ public class ProblemController {
 
     private final ProblemService problemService;
 
-    // PDF 기반 문제 생성 (FastAPI 연동)
+    // PDF 기반 문제 생성 (FastAPI 연동) - Multipart 방식
+    @PostMapping(value = "/generate", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> generateProblems(
+            @RequestPart("file") MultipartFile file,
+            @RequestParam(defaultValue = "gpt-4o-mini") String model,
+            @RequestParam(defaultValue = "[]") String questionTypes,
+            @RequestParam(defaultValue = "10") Integer numQuestions,
+            @RequestParam(defaultValue = "medium") String difficulty,
+            @RequestParam(defaultValue = "ko") String language
+    ) {
+        try {
+            List<ProblemResponseDto> createdProblems = problemService.generateProblemsFromPdf(
+                    file, model, questionTypes, numQuestions, difficulty, language
+            );
+            return ResponseEntity.ok(createdProblems);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(
+                    new ErrorResponse(500, "FastAPI 서버와의 통신에 실패했습니다: " + e.getMessage(), "/api/problems/generate")
+            );
+        }
+    }
+
+    // PDF 기반 문제 생성 (FastAPI 연동) - JSON 방식 (기존 코드 유지)
     @PostMapping
     public ResponseEntity<?> createProblems(@RequestBody ProblemRequestDto requestDto) {
         try {
