@@ -2,9 +2,9 @@ spring:
   application:
     name: aim
   datasource:
-    url: jdbc:postgresql://localhost:5432/capston
-    username: ${DB_NAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/okdb
+    username: okuser
+    password: okpassword
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
