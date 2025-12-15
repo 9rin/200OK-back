@@ -113,7 +113,25 @@ async def generate_focus_questions(payload: dict):
     너는 교육 평가 AI이다.
 
     학생의 오답률 통계를 기반으로 취약한 개념을 분석하고,
-    집중 학습용 문제를 JSON으로 생성하라.
+    집중 학습용 문제를 아래 JSON 형식으로 생성하라.
+
+    반드시 이 형식을 그대로 지켜라:
+
+    {{
+    "question_count": N,
+    "generated_questions": [
+        {{
+        "type": "concept",
+        "question": "문제 내용",
+        "answer": "정답"
+        }}
+    ]
+    }}
+
+    규칙:
+    1. generated_questions는 반드시 N개의 문제만 포함
+    2. type, question, answer만 포함
+    3. 다른 텍스트 절대 추가하지 말 것
 
     입력:
     {payload}
